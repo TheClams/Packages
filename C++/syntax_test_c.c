@@ -17,6 +17,12 @@ enum FOO do_the_foo(void);
 
 #define APIC_CAPABILITY TheEnum
 enum TheEnum { kFoo, kBar };
+/*             ^  entity.name.constant.c */
+
+enum state {DEAD, ALIVE} stateVariable;
+/*   ^ entity.name.enum.c*/
+/*                       ^ - entity*/
+
 static enum APIC_CAPABILITY apic_capabilities(void) { return kFoo; };
 /*                          ^ entity.name.function */
 /*                                            ^ storage.type */
@@ -292,6 +298,26 @@ typedef struct mystruct {
 /*             ^ - entity */
 } mystruct;
 /* ^ entity.name.type */
+
+typedef enum
+{
+    Red,
+/*  ^ entity.name.constant.c  */
+    Green,
+    Blue
+/*  ^ entity.name.constant.c  */
+} color;
+/*^ entity.name.type.typedef.c*/
+
+typedef enum color { RED, GREEN, BLUE } color;
+/*           ^ - entity */
+/*                   ^ entity.name.constant  */
+/*                               ^ entity.name.constant  */
+/*                                      ^ entity.name.type.typedef */
+
+typedef enum color color;
+/*           ^ - entity */
+/*                 ^ entity.name.type.typedef.c*/
 
 /////////////////////////////////////////////
 // Data structures and return values

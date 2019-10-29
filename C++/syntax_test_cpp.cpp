@@ -390,13 +390,34 @@ typedef struct Books {
 } Book;
 /*^ entity.name.type */
 
+typedef enum
+{
+    Red,
+/*  ^ entity.name.constant  */
+    Green,
+    Blue
+/*  ^ entity.name.constant  */
+} color;
+/*^ entity.name.type.typedef */
+
+typedef enum color { RED, GREEN, BLUE } color;
+/*           ^ - entity */
+/*                   ^ entity.name.constant  */
+/*                               ^ entity.name.constant  */
+/*                                      ^ entity.name.type.typedef */
+
+typedef enum color color;
+/*           ^ - entity */
+/*                 ^ entity.name.type.typedef */
+
+
 using Alias = Foo;
 /* <- keyword.control */
 /*    ^^^^^ entity.name.type.using */
 
 using Alias
   = NewLineFoo;
-/*^ - entity.name */ 
+/*^ - entity.name */
 
 template <typename T>
 using TemplateAlias = Foo<T>;
@@ -429,7 +450,7 @@ class MyClass : public CrtpClass<MyClass>
 {
     using typename CrtpClass<MyClass>::PointerType;
 /*  ^ keyword.control */
-/*        ^ storage.modifier */ 
+/*        ^ storage.modifier */
     using CrtpClass<
 /*  ^ keyword.control */
         MyClass>::method;
@@ -1407,7 +1428,7 @@ void func() {
 /*                                                   ^ string */
 }
 
-using namespace 
+using namespace
 /* <- keyword.control */
 /*    ^ keyword.control */
 
@@ -1749,6 +1770,12 @@ private:
     }
 /*  ^ meta.enum punctuation.section.block.end */
 /*   ^ - meta.enum */
+
+    enum class Color{ Red, Green, Blue};
+/*       ^ storage.type.c++ */
+/*             ^  entity.name.enum */
+/*                    ^  entity.name.constant */
+/*                                ^  entity.name.constant */
 
     friend int func(int a, int b);
 /*  ^ storage.modifier */
@@ -2098,7 +2125,7 @@ enum class Namespace::MyEnum
 };
 
 class Namespace::
-MyClass MACRO1 
+MyClass MACRO1
 /* <- entity.name.class */
 /*      ^ - entity.name */
 {

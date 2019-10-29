@@ -252,13 +252,13 @@ contexts:
     - include: preprocessor-statements
     - include: scope:source.c#label
     - include: expressions
-    
+
   statements-enum:
     - include: preprocessor-statements
     - include: scope:source.c#label
     - match: '{{identifier}}'
-      scope: entity.name.enum.c++.constants
-    - include: expressions    
+      scope: entity.name.constant.c++
+    - include: expressions
 
   expressions:
     - include: early-expressions
@@ -784,6 +784,19 @@ contexts:
         - match: \b(struct)\s+({{identifier}})\b
           captures:
             1: storage.type.c++
+        - match: '\benum\b'
+          scope: storage.type.c++
+          push:
+            - match: '{{identifier}}'
+              set:
+                - match: ({{identifier}})?\s*(?=;)
+                  captures:
+                    1: entity.name.type.typedef.c++
+                  pop: true
+                - include: data-structures-enum-definition-after-identifier
+            - include: data-structures-enum-definition-after-identifier
+            - include: comments
+
         - match: \benum\b
           scope: storage.type.c++
           set: data-structures-enum-definition
@@ -2031,7 +2044,7 @@ contexts:
     # Captures the namespace macro idiom
     - match: '\b(namespace)\s+(?={{path_lookahead}}\s*\{)'
       scope: meta.namespace.c++
-      captures: 
+      captures:
         1: keyword.control.c++
       push:
         - meta_content_scope: meta.namespace.c++ entity.name.namespace.c++
