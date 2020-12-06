@@ -518,11 +518,28 @@ contexts:
               set: function-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.c
-            - match: '{{identifier}}(?=\s*(\[|,|\)))'
-              scope: variable.parameter.c
             - include: expressions
+            - match: '(?={{identifier}})'
+              branch_point: bp-function-definition-params-identifier
+              branch:
+                - function-definition-params-branch-variable
+                - function-definition-params-branch-identifier
             - include: preprocessor-line-continuation
     - match: (?=\S)
+      pop: true
+
+  function-definition-params-branch-variable:
+    - match: '{{identifier}}'
+      scope: variable.parameter.c
+      set:
+        - match: (?=\s*(\[|,|\)))
+          pop: true
+        - include: comments
+        - match: (?=\S)
+          fail: bp-function-definition-params-identifier
+
+  function-definition-params-branch-identifier:
+    - match: '{{identifier}}'
       pop: true
 
   function-definition-continue:

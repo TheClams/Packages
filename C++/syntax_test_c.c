@@ -155,7 +155,9 @@ EFIAPI
 UserStructCompare (
   /* <- meta.function entity.name.function */
   IN CONST VOID *UserStruct1,
+  /*             ^ variable.parameter */
   IN CONST VOID *UserStruct2
+  /*             ^ variable.parameter */
   )
 {
   const USER_STRUCT *CmpStruct1;
